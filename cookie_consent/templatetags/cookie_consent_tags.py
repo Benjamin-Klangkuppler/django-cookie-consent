@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django import template
+from django.conf import settings
 from django.urls import reverse
 
 from cookie_consent.util import (
@@ -134,6 +135,38 @@ def js_type_for_cookie_consent(request, varname, cookie=None):
             res = value
     return "text/javascript" if res else "x/cookie_consent"
 
+
+@register.filter(name='cookie_consent_receipts)
+def cookie_consent_receipts(value, request, cookie_domain=None):
+    """ 
+    Tag returns "x/cookie_consent" when processing javascript
+    will create an cookie and consent does not exists yet based 
+    on settings variable COOKIE_RECEIPTS_USED for can do listed before.
+    and context key domain, title_law ,content_law.
+    
+    COOKIE_RECEIPTS_USED = {
+        'analytic': {
+            'domain': '*.google.com',
+            'title_law': _('Title Law'),
+            'content_law': _('Content Law'),
+            } ,
+         'social': {
+            'title_law': _('Title Law'),
+            'content_law': _('Content Law'),
+           },
+         }
+    """
+    cc_receipts= settings.COOKIE_RECEIPTS_USED if hastattr(settings.COOKIE_RECEIPTS_USED) else None
+    if cc_receipts:
+        for receipts_name, receipts in cc_receipts.items():  
+            if receipts_name == value:
+                cookie_dict = cc_receipts[receipts] if cc_receipts[receipts] else None
+                for k,v in cookie_dict.items():               
+                    cookie_domain = v  if k == 'domain' else None
+                    title = v if k == 'title_law' esle None 
+                    content = v  if k == 'content_law' else None
+                return js_type_for_cookie_consent(request, receipts_name , cookie=cookie_domain), cookie_domain, title, content
+                    
 
 @register.filter
 def accepted_cookies(request):
