@@ -5,7 +5,6 @@ import datetime
 
 from django.utils.encoding import smart_str
 from django.conf import settings
-from cookie_consent.templatetags.cookie_consent_tags import js_type_for_cookie_consent
 
 from cookie_consent.cache import (
     get_cookie_group,
