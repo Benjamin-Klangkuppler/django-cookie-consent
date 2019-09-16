@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.views.generic import (
     TemplateView,
 )
-from cookie_consent.util import get_cookie_value_from_request , cookie_consent_receipts
+from cookie_consent.util import get_cookie_value_from_request , js_cookie_consent_receipts
 
 COOKIE_RECEIPTS_USED = {
     'analytic': {
@@ -36,5 +36,5 @@ class TestPageViewReceipts(TemplateView):
         if get_cookie_value_from_request(request, "optional") is True:
             val = "optional cookie set from django"
             response.set_cookie("optional_test_cookie", val)
-        cookie_consent_receipts( 'optional' , request)
+        js_cookie_consent_receipts( 'optional' , request)
         return response
