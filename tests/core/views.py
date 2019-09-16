@@ -37,5 +37,5 @@ class TestPageViewReceipts(TemplateView):
         if get_cookie_value_from_request(request, "optional") is True:
             val = "optional cookie set from django"
             response.set_cookie("optional_test_cookie", val)
-        js_cookie_consent_receipts( 'optional' , request)
+            js_cookie_consent_receipts( 'optional' , request)
         return response
