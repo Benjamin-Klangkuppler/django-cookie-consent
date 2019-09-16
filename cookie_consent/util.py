@@ -200,7 +200,7 @@ def string_for_js_type_for_cookie_consent(request, varname, cookie=None):
 
 
 def js_cookie_consent_receipts(value, request, cookie_domain=None):
-    cc_receipts= settings.COOKIE_RECEIPTS_USED if hasattr(settings.COOKIE_RECEIPTS_USED) else None
+    cc_receipts= getattr(settings, 'COOKIE_RECEIPTS_USED', False)
     if cc_receipts:
         for receipts_name, receipts in cc_receipts.items():  
             if receipts_name == value:
