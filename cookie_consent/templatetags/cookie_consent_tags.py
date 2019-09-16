@@ -13,7 +13,7 @@ from cookie_consent.util import (
     are_all_cookies_accepted,
     get_not_accepted_or_declined_cookie_groups,
     is_cookie_consent_enabled,
-    js_type_for_cookie_consent,
+    string_for_js_type_for_cookie_consent,
     js_cookie_consent_receipts,
 )
 from cookie_consent.conf import settings
@@ -126,9 +126,8 @@ def js_type_for_cookie_consent(request, varname, cookie=None):
         alert("Social cookie accepted");
       </script>
     """
-    js_type_for_cookie_consent = js_type_for_cookie_consent(request, varname, cookie=None)
+    retrun string_for_js_type_for_cookie_consent(request, varname, cookie=None)
 
-    return js_type_for_cookie_consent
 
 @register.simple_tag
 def cc_receipts(value, request, cookie_domain=None):
