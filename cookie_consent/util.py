@@ -177,7 +177,7 @@ def get_accepted_cookies(request):
                 accepted_cookies.append(cookie)
     return accepted_cookies
 
-def js_type_for_cookie_consent(request, varname, cookie=None):
+def string_for_js_type_for_cookie_consent(request, varname, cookie=None):
     """
     Tag returns "x/cookie_consent" when processing javascript
     will create an cookie and consent does not exists yet.
