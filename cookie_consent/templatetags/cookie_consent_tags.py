@@ -13,6 +13,7 @@ from cookie_consent.util import (
     are_all_cookies_accepted,
     get_not_accepted_or_declined_cookie_groups,
     is_cookie_consent_enabled,
+    cookie_consent_receipts,
 )
 from cookie_consent.conf import settings
 
@@ -137,7 +138,7 @@ def js_type_for_cookie_consent(request, varname, cookie=None):
 
 
 @register.filter(name='cc_receipts')
-def cookie_consent_receipts(value, request, cookie_domain=None):
+def cookie_receipts(value, request, cookie_domain=None):
     """ 
     Tag returns "x/cookie_consent" when processing javascript
     will create an cookie and consent does not exists yet based 
@@ -156,17 +157,7 @@ def cookie_consent_receipts(value, request, cookie_domain=None):
            },
          }
     """
-    cc_receipts= settings.COOKIE_RECEIPTS_USED if hastattr(settings.COOKIE_RECEIPTS_USED) else None
-    if cc_receipts:
-        for receipts_name, receipts in cc_receipts.items():  
-            if receipts_name == value:
-                cookie_dict = cc_receipts[receipts] if cc_receipts[receipts] else None
-                for k,v in cookie_dict.items():               
-                    cookie_domain = v  if k == 'domain' else None
-                    title = v if k == 'title_law' else None 
-                    content = v  if k == 'content_law' else None
-                return js_type_for_cookie_consent(request, receipts_name , cookie=cookie_domain), cookie_domain, title, content
-                    
+    return cookie_consent_receipts(value, request, cookie_domain=None)
 
 @register.filter
 def accepted_cookies(request):
