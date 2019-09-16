@@ -13,7 +13,8 @@ from cookie_consent.util import (
     are_all_cookies_accepted,
     get_not_accepted_or_declined_cookie_groups,
     is_cookie_consent_enabled,
-    cookie_consent_receipts,
+    js_type_for_cookie_consent,
+    js_cookie_consent_receipts,
 )
 from cookie_consent.conf import settings
 
@@ -125,16 +126,7 @@ def js_type_for_cookie_consent(request, varname, cookie=None):
         alert("Social cookie accepted");
       </script>
     """
-    enabled = is_cookie_consent_enabled(request)
-    if not enabled:
-        res = True
-    else:
-        value = get_cookie_value_from_request(request, varname, cookie)
-        if value is None:
-            res = settings.COOKIE_CONSENT_OPT_OUT
-        else:
-            res = value
-    return "text/javascript" if res else "x/cookie_consent"
+    return js_type_for_cookie_consent(request, varname, cookie=None)
 
 
 @register.filter(name='cc_receipts')
