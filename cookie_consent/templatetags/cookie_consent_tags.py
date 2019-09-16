@@ -149,7 +149,7 @@ def cc_receipts(value, request, cookie_domain=None):
            },
          }
     """
-    return cookie_consent_receipts(value, request, cookie_domain)
+    return js_cookie_consent_receipts(value, request, cookie_domain)
 
 @register.filter
 def accepted_cookies(request):
