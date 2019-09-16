@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 import datetime
 
 from django.utils.encoding import smart_str
-from cookie_consent.cookie_consent_tags import js_type_for_cookie_consent
+from cookie_consent.templatetags.cookie_consent_tags import js_type_for_cookie_consent
 
 from cookie_consent.cache import (
     get_cookie_group,
