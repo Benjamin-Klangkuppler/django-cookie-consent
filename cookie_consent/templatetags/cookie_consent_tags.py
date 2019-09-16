@@ -136,7 +136,7 @@ def js_type_for_cookie_consent(request, varname, cookie=None):
     return "text/javascript" if res else "x/cookie_consent"
 
 
-@register.filter(name='cc_receipts)
+@register.filter(name='cc_receipts')
 def cookie_consent_receipts(value, request, cookie_domain=None):
     """ 
     Tag returns "x/cookie_consent" when processing javascript
