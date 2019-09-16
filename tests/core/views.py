@@ -26,7 +26,6 @@ class TestPageView(TemplateView):
         if get_cookie_value_from_request(request, "optional") is True:
             val = "optional cookie set from django"
             response.set_cookie("optional_test_cookie", val)
-        if 
         return response
 
 class TestPageViewReceipts(TemplateView):
