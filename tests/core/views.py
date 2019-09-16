@@ -4,8 +4,19 @@ from __future__ import unicode_literals
 from django.views.generic import (
     TemplateView,
 )
-from cookie_consent.util import get_cookie_value_from_request
+from cookie_consent.util import get_cookie_value_from_request , cookie_consent_receipts
 
+COOKIE_RECEIPTS_USED = {
+    'analytic': {
+        'domain': '*.google.com',
+        'title_law': _('Title Law'),
+        'content_law': _('Content Law'),
+        } ,
+     'social': {
+        'title_law': _('Title Law'),
+        'content_law': _('Content Law'),
+       },
+     }
 
 class TestPageView(TemplateView):
     template_name = "test_page.html"
@@ -15,6 +26,7 @@ class TestPageView(TemplateView):
         if get_cookie_value_from_request(request, "optional") is True:
             val = "optional cookie set from django"
             response.set_cookie("optional_test_cookie", val)
+        if 
         return response
 
 class TestPageViewReceipts(TemplateView):
@@ -25,4 +37,5 @@ class TestPageViewReceipts(TemplateView):
         if get_cookie_value_from_request(request, "optional") is True:
             val = "optional cookie set from django"
             response.set_cookie("optional_test_cookie", val)
+        cookie_consent_receipts( 'optional' , request)
         return response
