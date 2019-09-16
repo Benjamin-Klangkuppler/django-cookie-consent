@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import datetime
 
 from django.utils.encoding import smart_str
+from cookie_consent.cookie_consent_tags import js_type_for_cookie_consent
 
 from cookie_consent.cache import (
     get_cookie_group,
@@ -175,3 +176,15 @@ def get_accepted_cookies(request):
             if version >= cookie.get_version():
                 accepted_cookies.append(cookie)
     return accepted_cookies
+
+def cookie_consent_receipts(value, request, cookie_domain=None):
+    cc_receipts= settings.COOKIE_RECEIPTS_USED if hastattr(settings.COOKIE_RECEIPTS_USED) else None
+    if cc_receipts:
+        for receipts_name, receipts in cc_receipts.items():  
+            if receipts_name == value:
+                cookie_dict = cc_receipts[receipts] if cc_receipts[receipts] else None
+                for k,v in cookie_dict.items():               
+                    cookie_domain = v  if k == 'domain' else None
+                    title = v if k == 'title_law' else None 
+                    content = v  if k == 'content_law' else None
+                return js_type_for_cookie_consent(request, receipts_name , cookie=cookie_domain), cookie_domain, title, content
