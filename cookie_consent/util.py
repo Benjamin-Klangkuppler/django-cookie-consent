@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import datetime
 
 from django.utils.encoding import smart_str
+from django.conf import settings
 from cookie_consent.templatetags.cookie_consent_tags import js_type_for_cookie_consent
 
 from cookie_consent.cache import (
@@ -177,7 +178,29 @@ def get_accepted_cookies(request):
                 accepted_cookies.append(cookie)
     return accepted_cookies
 
-def cookie_consent_receipts(value, request, cookie_domain=None):
+def js_type_for_cookie_consent(request, varname, cookie=None):
+    """
+    Tag returns "x/cookie_consent" when processing javascript
+    will create an cookie and consent does not exists yet.
+    Example::
+      <script type="{% js_type_for_cookie_consent request "social" %}"
+      data-varname="social">
+        alert("Social cookie accepted");
+      </script>
+    """
+    enabled = is_cookie_consent_enabled(request)
+    if not enabled:
+        res = True
+    else:
+        value = get_cookie_value_from_request(request, varname, cookie)
+        if value is None:
+            res = settings.COOKIE_CONSENT_OPT_OUT
+        else:
+            res = value
+    return "text/javascript" if res else "x/cookie_consent"
+
+
+def js_cookie_consent_receipts(value, request, cookie_domain=None):
     cc_receipts= settings.COOKIE_RECEIPTS_USED if hastattr(settings.COOKIE_RECEIPTS_USED) else None
     if cc_receipts:
         for receipts_name, receipts in cc_receipts.items():  
