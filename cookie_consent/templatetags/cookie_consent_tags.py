@@ -128,9 +128,8 @@ def js_type_for_cookie_consent(request, varname, cookie=None):
     """
     return js_type_for_cookie_consent(request, varname, cookie=None)
 
-
-@register.filter(name='cc_receipts')
-def cookie_receipts(value, request, cookie_domain=None):
+@register.simple_tag
+def cc_receipts(value, request, cookie_domain=None):
     """ 
     Tag returns "x/cookie_consent" when processing javascript
     will create an cookie and consent does not exists yet based 
