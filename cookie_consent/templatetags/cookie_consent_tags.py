@@ -163,7 +163,7 @@ def cookie_consent_receipts(value, request, cookie_domain=None):
                 cookie_dict = cc_receipts[receipts] if cc_receipts[receipts] else None
                 for k,v in cookie_dict.items():               
                     cookie_domain = v  if k == 'domain' else None
-                    title = v if k == 'title_law' esle None 
+                    title = v if k == 'title_law' else None 
                     content = v  if k == 'content_law' else None
                 return js_type_for_cookie_consent(request, receipts_name , cookie=cookie_domain), cookie_domain, title, content
                     
