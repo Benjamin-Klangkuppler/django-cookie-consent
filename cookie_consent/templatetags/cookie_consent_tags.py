@@ -126,7 +126,9 @@ def js_type_for_cookie_consent(request, varname, cookie=None):
         alert("Social cookie accepted");
       </script>
     """
-    return js_type_for_cookie_consent(request, varname, cookie=None)
+    js_type_for_cookie_consent = js_type_for_cookie_consent(request, varname, cookie=None)
+
+    return js_type_for_cookie_consent
 
 @register.simple_tag
 def cc_receipts(value, request, cookie_domain=None):
